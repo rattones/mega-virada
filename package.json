@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "csv-parse": "^5.6.0"
+  },
+  "name": "mega-virada",
+  "version": "1.0.0",
+  "description": "Scripts for analyzing Mega-Sena lottery numbers and generating new combinations based on: - Most frequent numbers - Least frequent numbers - Average frequency numbers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
