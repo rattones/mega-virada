@@ -66,3 +66,23 @@ console.log('\nSugestões de novas combinações com os números mais frequentes
 newCombinations.forEach((combo, index) => {
     console.log(`Combinação ${index + 1}: ${combo.join(', ')}`);
 });
+
+const getLastContest = (megaSenaData) => {
+  const lastDraw = megaSenaData[0];
+  return {
+      number: lastDraw.Concurso,
+      date: lastDraw.Data,
+      numbers: [
+          lastDraw.Bola1,
+          lastDraw.Bola2,
+          lastDraw.Bola3,
+          lastDraw.Bola4,
+          lastDraw.Bola5,
+          lastDraw.Bola6
+      ].sort((a, b) => a - b)
+  };
+}
+const lastContest = getLastContest(megaSenaData);
+console.log(`Último concurso: ${lastContest.number}`);
+console.log(`Data: ${lastContest.date}`);
+console.log(`Números sorteados: ${lastContest.numbers.join(', ')}`);
