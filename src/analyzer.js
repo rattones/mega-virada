@@ -2,7 +2,10 @@ const FileManipulation = require('./file-manipulation.js');
 
 const fm = new FileManipulation();
 
-// console.log('analizer', fm.getData('1432'));
-console.log('analizer', fm.getData(2810));
+module.exports = class Analyzer {
+  megaSenaData = null;
 
-fm.writeData(fm.getData('100'));
+  constructor() {
+    this.megaSenaData = fm.getData();
+  }
+}
