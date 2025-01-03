@@ -8,12 +8,14 @@ function showBet(bet) {
 }
 
 async function teste() {
+  console.log('---------------------------------------');
   const gen = new Generator();
-  // for (let i = 1; i <= 10; i++) {
-  //   const r = gen.generateBet();
-  //   console.log(`Aposta ${i.toString().padStart(2, ' ')}: ${showBet(r)}`);
-  // }
-  const rn = gen.generateRandomNumbers(20);
-  console.log(`Aposta: ${showBet(rn)}`);
+  for (let i = 1; i <= 10; i++) {
+    const r = gen.generateBet();
+    console.log(`Aposta ${i.toString().padStart(2, ' ')}: ${showBet(r)}`);
+  }
+  console.log('---------------------------------------');
+  const rn = gen.generateRandomNumbers(10);
+  console.log('---------------------------------------');
 }
 teste();

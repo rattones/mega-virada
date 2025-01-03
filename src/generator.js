@@ -54,7 +54,6 @@ module.exports = class Generator {
     numbers.sort((a, b) => a - b);
 
     const combinations = this.generateCombinations(numbers, 6);
-    console.log(`Combinações geradas: ${combinations.length}`);
     combinations.forEach(combination => {
       let hash = this.db.getHashSorteio(combination);
       if (!this.db.getConcursoByHash(hash)) {
@@ -62,6 +61,8 @@ module.exports = class Generator {
         return this.generateRandomNumbers(qtdNumbers);
       }
     });
+    console.log(`Números: ${numbers}`);
+    console.log(`Total de combinações: ${combinations.length}`);
     return numbers;
   }
 
