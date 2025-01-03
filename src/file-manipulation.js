@@ -19,7 +19,7 @@ module.exports = class FileManipulation {
    * @param {number} concurso - Número do concurso específico (opcional)
    * @returns {Array|Object} Retorna todos os sorteios ou um concurso específico
    */
-  getData(concurso = null) {
+  getConcurso(concurso = null) {
     if (concurso == null) {
       return this.megaSenaData;
     }
@@ -40,7 +40,7 @@ module.exports = class FileManipulation {
    * Busca último resultado via CaixaService e adiciona se for novo
    */
   async updateData() {
-    const novoConcurso = await this.cs.getData();
+    const novoConcurso = await this.cs.getConcurso();
     // Verifica se o concurso já existe antes de adicionar
     if (!this.megaSenaData.find(item => (item.Concurso == novoConcurso.Concurso))) {
       console.log('atualizando', novoConcurso);

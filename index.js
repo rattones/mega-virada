@@ -1,17 +1,19 @@
 const path = require('path');
 
-const analyzer = require('./src/analyzer.js');
+const Generator = require('./src/generator.js');
 
-const basePath = __dirname;
-
-console.log(basePath);
-
-const CaixaService = require('./src/caixa-service.js');
-
-async function teste() {
-  const t = new CaixaService();
-  const x = await t.getData()
-  console.log('teste', x);
+function showBet(bet) {
+  bet = bet.map(i => i.toString().padStart(2, ' '))
+  return bet.join(' - ');
 }
 
+async function teste() {
+  const gen = new Generator();
+  // for (let i = 1; i <= 10; i++) {
+  //   const r = gen.generateBet();
+  //   console.log(`Aposta ${i.toString().padStart(2, ' ')}: ${showBet(r)}`);
+  // }
+  const rn = gen.generateRandomNumbers(20);
+  console.log(`Aposta: ${showBet(rn)}`);
+}
 teste();

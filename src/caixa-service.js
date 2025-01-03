@@ -33,7 +33,7 @@ module.exports = class CaixaService {
    * @param {number} concurso - número do concurso (opcional)
    * @returns {Promise<Object>} Dados do sorteio processados
    */
-  async getData(concurso = null) {
+  async getConcurso(concurso = null) {
     if (concurso != null) {
       msUrl= `${msUrl}/${concurso}`;
     }
@@ -76,6 +76,8 @@ module.exports = class CaixaService {
 
     return this.mega;
   }
+
+  // ======================= UTILS ======================= //
 
   /**
    * Converte data do formato DD/MM/YYYY para YYYY-MM-DD

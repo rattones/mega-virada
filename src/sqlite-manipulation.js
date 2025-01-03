@@ -5,8 +5,6 @@ const sqlite3 = require('sqlite3');
 module.exports = class SqliteManipulation {
   /** Inicializa conexão com banco SQLite */
   db = new sqlite3.Database('./data/megasena.db');
-  // Carrega dados do arquivo via FileManipulation
-  megaSenaData = new FM().getData();
   // Instancia serviço da Caixa
   caixa = new CS();
 
@@ -15,6 +13,8 @@ module.exports = class SqliteManipulation {
    * Percorre todos os concursos e insere no banco
    */
   convertJSONtoDB() {
+    // Carrega dados do arquivo via FileManipulation
+    megaSenaData = new FM().getConcurso();
     console.log('Iniciando conversão do arquivo de Concursos de JSON para SQLite');
     for(let i=0; i<this.megaSenaData.length; i++) {
       let element = this.megaSenaData[i];
@@ -28,7 +28,7 @@ module.exports = class SqliteManipulation {
    * Verifica último concurso no banco e insere novo se existir
    */
   async updateConcursos() {
-    const dadosSorteio = await this.caixa.getData();
+    const dadosSorteio = await this.caixa.getConcurso();
     // Verifica último concurso no banco
     this.db.get('SELECT max(numero) as concurso FROM concursos', (err, rows) => {
       // Insere novo concurso se não existir
@@ -66,7 +66,7 @@ module.exports = class SqliteManipulation {
                 ${concurso.Bola4},
                 ${concurso.Bola5},
                 ${concurso.Bola6},
-                '${this.geraHashSorteio([concurso.Bola1, concurso.Bola2, concurso.Bola3, concurso.Bola4, concurso.Bola5, concurso.Bola6])}',
+                '${this.getHashSorteio([concurso.Bola1, concurso.Bola2, concurso.Bola3, concurso.Bola4, concurso.Bola5, concurso.Bola6])}',
                 ${concurso['Ganhadores 6 acertos']},
                 ${this.toValue(concurso['Rateio 6 acertos'])},
                 ${concurso['Ganhadores 5 acertos']},
@@ -79,11 +79,30 @@ module.exports = class SqliteManipulation {
   }
 
   /**
+   * Busca um concurso específico pelo hash
+   * @param {string} hash - Hash do concurso a ser buscado
+   * @returns {Object} Dados do concurso correspondente ao hash
+   */
+  getConcursoByHash(hash) {
+    return new Promise((resolve, reject) => {
+      this.db.get('SELECT * FROM concursos WHERE hash_sorteio = ?', [hash], (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows? rows: false);
+        }
+      });
+    });
+  }
+
+  // ======================= UTILS ======================= //
+
+  /**
    * Gera hash identificador único do sorteio concatenando números
    * @param {Array} sorteio - Array com números sorteados
    * @returns {string} Hash gerada com números concatenados
    */
-  geraHashSorteio(sorteio) {
+  getHashSorteio(sorteio) {
     return sorteio.reduce((acc, curr) => `${acc}+${curr}`, '');
   }
 
