@@ -33,6 +33,7 @@ module.exports = class SqliteManipulation {
     this.db.get('SELECT max(numero) as concurso FROM concursos', (err, rows) => {
       // Insere novo concurso se não existir
       if (dadosSorteio.Concurso != rows.concurso) {
+        console.log('Inserindo novo concurso');
         this.insertConcurso(dadosSorteio);
       }
     });

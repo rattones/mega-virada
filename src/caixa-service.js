@@ -74,6 +74,8 @@ module.exports = class CaixaService {
     this.mega['Acumulado Sorteio Especial Mega da Virada'] = this.toCurrency(data.valorEstimadoProximoConcurso).toString();
     this.mega['Observação'] = data.observacao.toString();
 
+    console.log('Processando dados do concurso:', this.mega['Concurso']);
+
     return this.mega;
   }
 
