@@ -33,9 +33,11 @@ Componentes principais em src/:
 ```bash
   git clone https://github.com/rattones/mega-virada.git
 ```
-2. Install dependencies: ```bash
+2. Install dependencies:
+```bash
   npm install
 ```
-3. Run the project: ```bash
+3. Run the project:
+```bash
   node index.js
 ```
