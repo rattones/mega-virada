@@ -1,3 +1,5 @@
 node_modules
 .DS_Store
 .sfdx
+data/Mega-Sena.xlsx
+data/mega-sena-orig.json

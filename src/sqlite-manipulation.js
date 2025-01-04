@@ -35,6 +35,8 @@ module.exports = class SqliteManipulation {
       if (dadosSorteio.Concurso != rows.concurso) {
         console.log('Inserindo novo concurso');
         this.insertConcurso(dadosSorteio);
+      } else {
+        console.log('Último concurso já inserido');
       }
     });
   }
