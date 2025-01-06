@@ -71,12 +71,13 @@ module.exports = class SqliteManipulation {
                 ${concurso.Bola6},
                 '${this.getHashSorteio([concurso.Bola1, concurso.Bola2, concurso.Bola3, concurso.Bola4, concurso.Bola5, concurso.Bola6])}',
                 ${concurso['Ganhadores 6 acertos']},
-                ${this.toValue(concurso['Rateio 6 acertos'])},
+                ${this.toValue(concurso['Rateio 6 acertos']) || 0},
                 ${concurso['Ganhadores 5 acertos']},
-                ${this.toValue(concurso['Rateio 5 acertos'])},
+                ${this.toValue(concurso['Rateio 5 acertos']) || 0},
                 ${concurso['Ganhadores 4 acertos']},
-                ${this.toValue(concurso['Rateio 4 acertos'])}
+                ${this.toValue(concurso['Rateio 4 acertos']) || 0}
               );`;
+    console.log(query);
     console.log(`Inserindo dados do concurso: ${concurso.Concurso}`);
     this.db.exec(query);
   }
