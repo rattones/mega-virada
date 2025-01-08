@@ -77,7 +77,7 @@ module.exports = class SqliteManipulation {
                 ${concurso['Ganhadores 4 acertos']},
                 ${this.toValue(concurso['Rateio 4 acertos']) || 0}
               );`;
-    console.log(query);
+    // console.log(query);
     console.log(`Inserindo dados do concurso: ${concurso.Concurso}`);
     this.db.exec(query);
   }
