@@ -3,3 +3,4 @@ node_modules
 .sfdx
 data/Mega-Sena.xlsx
 data/mega-sena-orig.json
+.env
