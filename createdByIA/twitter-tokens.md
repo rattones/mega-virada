@@ -2,7 +2,7 @@
 
 ## Passo 1: Criar uma conta de desenvolvedor no X
 * Crie ou faça login na sua conta do X.
-* Vá para o Portal do Desenvolvedor do X.
+* Vá para o [Portal do Desenvolvedor do X](https://developer.x.com/en/portal/dashboard).
 * Clique em "Apply for a developer account" se você ainda não tem um.
 
 ## Passo 2: Criar um Projeto e uma Aplicação
