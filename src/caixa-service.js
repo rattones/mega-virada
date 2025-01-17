@@ -1,7 +1,8 @@
-// URL da API oficial da Caixa para consulta de resultados da Mega-Sena
-const msUrl = 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
 
 module.exports = class CaixaService {
+  // URL da API oficial da Caixa para consulta de resultados da Mega-Sena
+  msUrlbase = 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
+
   // Objeto que armazena os dados do resultado da Mega-Sena
   mega = {
     "Concurso": null,
@@ -34,11 +35,18 @@ module.exports = class CaixaService {
    * @returns {Promise<Object>} Dados do sorteio processados
    */
   async getConcurso(concurso = null) {
+    let msUrl = this.msUrlbase;
     if (concurso != null) {
-      msUrl= `${msUrl}/${concurso}`;
+      msUrl = `${this.msUrlbase}/${concurso}`;
     }
     console.log('Buscando dados da API da Caixa');
     const response = await fetch(msUrl);
+    // console.log('response', response.status, msUrl);
+    if (response.status !== 200) {
+      concurso--;
+      console.log(`Último concurso já inserido: ${concurso}`);
+      return false;
+    }
     const jsonResponse = await response.json();
     return await this.processData(jsonResponse);
   }

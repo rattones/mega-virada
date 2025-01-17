@@ -27,16 +27,19 @@ module.exports = class SqliteManipulation {
    * Atualiza concursos buscando últimos dados da API da Caixa
    * Verifica último concurso no banco e insere novo se existir
    */
-  async updateConcursos() {
-    const dadosSorteio = await this.caixa.getConcurso();
+  async updateConcursos(concurso = null) {
     // Verifica último concurso no banco
-    this.db.get('SELECT max(numero) as concurso FROM concursos', (err, rows) => {
-      // Insere novo concurso se não existir
-      if (dadosSorteio.Concurso != rows.concurso) {
+    this.db.get('SELECT max(numero) as concurso FROM concursos', async (err, rows) => {
+      concurso = parseInt(rows.concurso) + 1;
+      // Buscando os dados do concurso
+      const dadosSorteio = await this.caixa.getConcurso(concurso);
+
+      if (dadosSorteio) {
+        // Insere novo concurso se não existir
         console.log('Inserindo novo concurso');
         this.insertConcurso(dadosSorteio);
-      } else {
-        console.log('Último concurso já inserido');
+        // Tentando inserir o próximo concurso
+        this.updateConcursos();
       }
     });
   }
