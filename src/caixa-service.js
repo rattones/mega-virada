@@ -100,6 +100,16 @@ module.exports = class CaixaService {
   }
 
   /**
+   * Converte data do formato YYYY-MM-DD para DD/MM/YYYY
+   * @param {string} dt - Data no formato YYYY-MM-DD
+   * @returns {string} Data no formato DD/MM/YYYY
+   */
+  toData(dt) {
+    const aux = dt.split('-');
+    return `${aux[2]}/${aux[1]}/${aux[0]}`;
+  }
+
+  /**
    * Extrai e retorna lista de UFs onde houve ganhadores
    * @param {Object} data - Dados do sorteio
    * @returns {string} Lista de UFs concatenada

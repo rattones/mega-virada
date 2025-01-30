@@ -24,24 +24,39 @@ module.exports = class SqliteManipulation {
   }
 
   /**
+   * Busca o número do último concurso
+   * @returns {Promise<number>} Número do último concurso
+   */
+  getLastNumeroConcurso() {
+    return new Promise((resolve, reject) => {
+      this.db.get('SELECT max(numero) as concurso FROM concursos', (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(parseInt(rows.concurso));
+        }
+      });
+    });
+  }
+
+  /**
    * Atualiza concursos buscando últimos dados da API da Caixa
    * Verifica último concurso no banco e insere novo se existir
+   * @param {*} concurso - Número do concurso a ser buscado (opcional)
    */
   async updateConcursos(concurso = null) {
     // Verifica último concurso no banco
-    this.db.get('SELECT max(numero) as concurso FROM concursos', async (err, rows) => {
-      concurso = parseInt(rows.concurso) + 1;
-      // Buscando os dados do concurso
-      const dadosSorteio = await this.caixa.getConcurso(concurso);
+    concurso = await this.getLastNumeroConcurso() + 1;
+    // Buscando os dados do concurso
+    const dadosSorteio = await this.caixa.getConcurso(concurso);
 
-      if (dadosSorteio) {
-        // Insere novo concurso se não existir
-        console.log('Inserindo novo concurso');
-        this.insertConcurso(dadosSorteio);
-        // Tentando inserir o próximo concurso
-        this.updateConcursos();
-      }
-    });
+    if (dadosSorteio) {
+      // Insere novo concurso se não existir
+      console.log('Inserindo novo concurso');
+      this.insertConcurso(dadosSorteio);
+      // Tentando inserir o próximo concurso
+      this.updateConcursos();
+    }
   }
 
   /**
@@ -93,6 +108,24 @@ module.exports = class SqliteManipulation {
   getConcursoByHash(hash) {
     return new Promise((resolve, reject) => {
       this.db.get('SELECT * FROM concursos WHERE hash_sorteio = ?', [hash], (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows? rows: false);
+        }
+      });
+    });
+  }
+
+  /**
+   * Busca um concurso específico pelo número ou o último
+   * @param {*} concurso - The concurso object containing data about a lottery draw.
+   * @returns
+   */
+  async getConcurso(concurso = null) {
+    concurso = concurso || await this.getLastNumeroConcurso();
+    return new Promise((resolve, reject) => {
+      this.db.get('SELECT * FROM concursos WHERE numero = ? ORDER BY numero DESC LIMIT 1 ', [concurso], (err, rows) => {
         if (err) {
           reject(err);
         } else {
