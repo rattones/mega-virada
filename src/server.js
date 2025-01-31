@@ -47,7 +47,7 @@ module.exports = class Server {
         let max = this.params[2] || 3;
         max = max > 10 ? 10 : max; // limitando a 10 apostas
         for (let i= 1; i<=max; i++) {
-          sorte.push(await `Chance ${i.toString().padStart(2, ' ')}: ${showBet(this.gen.generateBet())}`);
+          sorte.push(await ` > ${i.toString().padStart(2, ' ')}: ${showBet(this.gen.generateBet())}`);
         }
         sorte = sorte.join('\r\n');
         res.write('Sorte gerada com sucesso!\r\n' + sorte);
@@ -59,15 +59,14 @@ module.exports = class Server {
         let str = '';
         if (concurso) {
           console.log('resultado concurso', concurso);
-          str = ``+
-          `Concurso: ${concurso.numero}\r\n`+
-          `Data do sorteio: ${this.caixa.toData(concurso.data_sorteio)}\r\n`+
-          `Numeros sorteados: ${showBet([concurso.bola1, concurso.bola2, concurso.bola3, concurso.bola4, concurso.bola5, concurso.bola6])}\r\n`+
-          `\r\n`+
-          `6 acertos: ${concurso.ganhadores6.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio6)}\r\n`+
-          `5 acertos: ${concurso.ganhadores5.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio5)}\r\n`+
-          `4 acertos: ${concurso.ganhadores4.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio4)}`
-          ;
+          str = `Concurso: ${concurso.numero}
+Data do sorteio: ${this.caixa.toData(concurso.data_sorteio)}
+Numeros sorteados: ${showBet([concurso.bola1, concurso.bola2, concurso.bola3, concurso.bola4, concurso.bola5, concurso.bola6])}
+
+ 6 acertos: ${concurso.ganhadores6.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio6)}
+ 5 acertos: ${concurso.ganhadores5.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio5)}
+ 4 acertos: ${concurso.ganhadores4.toString().padStart(6, ' ')} - ${this.caixa.toCurrency(concurso.rateio4)}
+          `;
         } else {
           str = `
           Concurso ${this.params[2]} nao encontrado!

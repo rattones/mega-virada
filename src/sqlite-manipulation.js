@@ -1,6 +1,7 @@
 const FM = require('./file-manipulation.js');
 const CS = require('./caixa-service.js');
 const sqlite3 = require('sqlite3');
+const { ETwitterApiError } = require('twitter-api-v2');
 
 module.exports = class SqliteManipulation {
   /** Inicializa conexão com banco SQLite */
@@ -130,6 +131,33 @@ module.exports = class SqliteManipulation {
           reject(err);
         } else {
           resolve(rows? rows: false);
+        }
+      });
+    });
+  }
+
+  /**
+   *
+   * @returns
+   */
+  getAllNumbers() {
+    const numbers = [];
+    return new Promise((resolve, reject) => {
+      this.db.all('SELECT * FROM concursos', (err, rows) => {
+        if (err) {
+          reject(err);
+        } else {
+          rows.forEach(row => {
+            numbers.push({numero: row.numero,
+                        bolas: [row.bola1,
+                          row.bola2,
+                          row.bola3,
+                          row.bola4,
+                          row.bola5,
+                          row.bola6]
+              });
+          })
+          resolve(numbers);
         }
       });
     });
