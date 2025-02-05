@@ -1,13 +1,13 @@
-const path = require('path');
-const { TwitterApi } = require('twitter-api-2');
+const { TwitterApi } = require('twitter-api-v2');
 require('dotenv').config();
-const Generator = require('./src/generator.js');
-const SqliteManipulation = require('./src/sqlite-manipulation.js');
+
+const Generator = require('../src/generator.js');
+const SqliteManipulation = require('../src/sqlite-manipulation.js');
 
 // Twitter client configuration
 const twitterClient = new TwitterApi({
-  appKey: process.env.TWITTER_APP_KEY,
-  appSecret: process.env.TWITTER_APP_SECRET,
+  appKey: process.env.TWITTER_API_KEY,
+  appSecret: process.env.TWITTER_API_KEY_SECRET,
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
   accessSecret: process.env.TWITTER_ACCESS_SECRET,
 });
