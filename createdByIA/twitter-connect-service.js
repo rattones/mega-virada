@@ -5,12 +5,13 @@ const Generator = require('../src/generator.js');
 const SqliteManipulation = require('../src/sqlite-manipulation.js');
 
 // Twitter client configuration
-const twitterClient = new TwitterApi({
+const client = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,
   appSecret: process.env.TWITTER_API_KEY_SECRET,
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
   accessSecret: process.env.TWITTER_ACCESS_SECRET,
 });
+
 function showBet(bet) {
   bet = bet.map(i => i.toString().padStart(2, ' '))
   return bet.join(' - ');
@@ -18,7 +19,7 @@ function showBet(bet) {
 
 async function tweetBet(betString) {
   try {
-    await twitterClient.v2.tweet(`Mega da Virada - Sugestão de aposta:\n${betString}`);
+    await client.v2.tweet(`Mega da Virada - Sugestão de aposta:\n${betString}`);
     console.log('Tweet posted successfully!');
   } catch (error) {
     console.log('Error posting tweet:', error);
@@ -44,9 +45,22 @@ async function updateDataBase() {
   db.updateConcursos();
 }
 
+async function getDM() {
+  const eventTimeline = await client.v2.listDmEvents()
+  console.log(eventTimeline.events)
+}
+
+async function getMentions() {
+  // const tweetsOfJack = await client.v2.userMentionTimeline('34467533', { end_time: '2025-02-05T00:00:00' }); // error 429 too many requests
+  const mentionTimeline = await client.v1.mentionTimeline({ trim_user: true }); // error 453 access level
+  const fetchedTweets = mentionTimeline.tweets;
+  console.log('getMentions', fetchedTweets);
+}
+
 async function main() {
-  await updateDataBase();
-  await generateBets();
+  // await updateDataBase();
+  // await generateBets();
+  await getMentions();
 }
 
 main();
