@@ -5,3 +5,4 @@ data/Mega-Sena.xlsx
 data/mega-sena-orig.json
 .env
 teste.js
+log/update.txt
